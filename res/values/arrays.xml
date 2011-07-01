@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="update_freq_options">
+        <item>매분</item>
+        <item>5분</item>
+        <item>10분</item>
+        <item>15분</item>
+        <item>매시간</item>
+    </string-array>
+
+    <string-array name="update_freq_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>60</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="PREF_AUTO_UPDATE"
+        android:title="자동 업데이트"
+        android:summary="자동 업데이트 기능을 켬"
+        android:defaultValue="true"
+    />
+    <ListPreference
+        android:key="PREF_UPDATE_FREQ"
+        android:title="업데이트 빈도"
+        android:summary="리스트의 업데이트 빈도"
+        android:entries="@array/update_freq_options"
+        android:entryValues="@array/update_freq_values"
+        android:dialogTitle="업데이트 빈도"
+        android:defaultValue="5"
+    />
+</PreferenceScreen>

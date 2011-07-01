@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, bulletinView!</string>
+    <string name="app_name">bulletinView</string>
+    <string name="menu_update">Update</string>
+    <string name="data_null">데이터가 없습니다.</string>
+    <string name="preferences_name">환경설정</string>
+    <string name="menu_delete">Delete DB</string>
+    <string name="menu_delete_seen">Delete the shown items.</string>
+</resources>
