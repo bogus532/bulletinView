@@ -127,7 +127,6 @@ public class bulletinView extends Activity {
         aa = new ArrayAdapter<bulletin>(this,layoutID,bulletinArray){
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
-				// TODO Auto-generated method stub
 				TextView txt = new TextView(this.getContext());
 				txt.setTextColor(Color.RED);
 				txt.setTextSize(25);
@@ -405,7 +404,6 @@ public class bulletinView extends Activity {
     private void addbulletinToArray(bulletin _bulletin)
     {
     	bulletinArray.add(_bulletin);
-    	//aa.notifyDataSetChanged();
     }
     
     private void updateListView()
@@ -558,7 +556,6 @@ public class bulletinView extends Activity {
 		// UI 스레드에서 AsynchTask객체.execute(...) 명령으로 실행되는 callback 
 		@Override
 		protected Integer doInBackground(Void... arg0) {
-			// TODO Auto-generated method stub
 			int totalIndex = 0;
 			totalIndex = refreshBulletin();
 			Log.d(TAG,"doInBackground : "+ totalIndex);
@@ -598,7 +595,6 @@ public class bulletinView extends Activity {
     	// background 작업이 취소될때 꼭 해야될 작업은  여기에 구현.
     	@Override
 		protected void onCancelled() {
-			// TODO Auto-generated method stub
 			super.onCancelled();
 		}
 
