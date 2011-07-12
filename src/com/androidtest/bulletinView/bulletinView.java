@@ -57,6 +57,7 @@ import android.widget.Toast;
 
 public class bulletinView extends Activity {
 	private static final String TAG = "BulletinView";
+	public static String BULLETIN_REFRESHED = "com.androidtest.bulletinView.BULLETIN_REFRESHED";
 	
 	private static final int MENU_UPDATE = Menu.FIRST;
 	private static final int MENU_PREFERENCES = Menu.FIRST+1;
@@ -150,6 +151,8 @@ public class bulletinView extends Activity {
         updateFromPreferences();
         
         showDialog(PROGRESS_DIALOG);
+        
+        serviceStartFunc();
     }
     
     @Override
@@ -210,6 +213,7 @@ public class bulletinView extends Activity {
 	        updateFromPreferences();
 
 	        showDialog(PROGRESS_DIALOG);
+	        serviceStartFunc();
 	    }
 	}
     
@@ -273,6 +277,11 @@ public class bulletinView extends Activity {
 	    autoUpdate = prefs.getBoolean(Preferences.PREF_AUTO_UPDATE, false);
 	    updateFreq = Integer.parseInt(prefs.getString(Preferences.PREF_UPDATE_FREQ, "0"));
 	}
+	
+	private void serviceStartFunc()
+	{
+		startService(new Intent(this, bulletinService.class));
+	}
     
     private int refreshBulletin() {
 	    // XML을 가져온다.
@@ -335,7 +344,7 @@ public class bulletinView extends Activity {
 	                    String strAuthor = author.getFirstChild().getNodeValue();
 	                    //String strAuthor = "경향신문";
 	                    
-	                    Log.d(TAG,linkString);
+	                    //Log.d(TAG,linkString);
 	                    
 	                    //String strDes = des.getFirstChild().getNodeValue();
 	                    //Log.d(TAG,strDes);
@@ -368,7 +377,7 @@ public class bulletinView extends Activity {
 	    ContentResolver cr = getContentResolver();
 	    String w = bulletinProvider.KEY_DATE + " = " + _bulletin.getDate().getTime();
 	    	    
-	    Log.d(TAG,"addNewBulletin : "+w);
+	    //Log.d(TAG,"addNewBulletin : "+w);
 	    
 	    if(cr.query(bulletinProvider.CONTENT_URI, null, w, null, null).getCount() == 0)
 	    {
@@ -391,7 +400,7 @@ public class bulletinView extends Activity {
 	    ContentResolver cr = getContentResolver();
 	    String w = bulletinProvider.KEY_DATE + " = " + _bulletin.getDate().getTime();
 	    	    
-	    Log.d(TAG,"updateBulletinDB : "+w);
+	    //Log.d(TAG,"updateBulletinDB : "+w);
 	    
 	    ContentValues values = new ContentValues();
 	    	
@@ -587,7 +596,8 @@ public class bulletinView extends Activity {
 				return;
 			}
 			
-			updateListView();    		
+			updateListView(); 
+			sendBroadcast(new Intent(BULLETIN_REFRESHED));
     	}
     	
     	// AsyncTask.cancel(boolean) 메소드가 true 인자로 
