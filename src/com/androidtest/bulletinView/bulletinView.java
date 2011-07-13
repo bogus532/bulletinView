@@ -76,11 +76,12 @@ public class bulletinView extends Activity {
 		
 	bulletin selectedbulletin;
 	
-	ProgressThread progressThread;
 	ProgressDialog progressDialog;
 	public WheelProgressDialog wheelprogressDialog;
 	
-	final String bulletin_feed = "http://www.slrclub.com/rss/rss.xml";
+	boolean myappstate;
+	
+	//final String bulletin_feed = "http://www.slrclub.com/rss/rss.xml"; //string.xml로 변경
 	//final String bulletin_feed ="http://blog.rss.naver.com/htech79.xml";
 	//final String bulletin_feed ="http://www.khan.co.kr/rss/rssdata/total_news.xml";
 	
@@ -94,6 +95,8 @@ public class bulletinView extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        myappstate = false;
         
         bulletinListView = (ListView)this.findViewById(R.id.bulletinListView);
         
@@ -158,12 +161,31 @@ public class bulletinView extends Activity {
     @Override
     protected void onResume()
     {
-        if (Config.DEBUG) Log.d(TAG, "onResume");
+        Log.d(TAG, "onResume");
         super.onResume();
 
         showDialog(PROGRESS_DIALOG);
     }
     
+    @Override
+    protected void onDestroy()
+    {
+    	Log.d(TAG, "onDestroy");
+    	super.onDestroy();
+    	
+    	myappstate = true;
+    }
+    
+    @Override
+    protected void onStop()
+    {
+    	Log.d(TAG, "onStop");
+    	super.onStop();
+    	
+    	myappstate = true;
+    }
+    
+        
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    super.onCreateOptionsMenu(menu);
@@ -213,7 +235,7 @@ public class bulletinView extends Activity {
 	        updateFromPreferences();
 
 	        showDialog(PROGRESS_DIALOG);
-	        serviceStartFunc();
+	        //serviceStartFunc();
 	    }
 	}
     
@@ -288,7 +310,8 @@ public class bulletinView extends Activity {
 	    URL url;
 	    int result=0;
 	    try {
-	        String bulletinFeed = bulletin_feed;
+	        //String bulletinFeed = bulletin_feed;
+	    	String bulletinFeed = getString(R.string.bulletin_feed);
 	        url = new URL(bulletinFeed);
 
 	        URLConnection connection;
@@ -501,53 +524,6 @@ public class bulletinView extends Activity {
 	    }
 	    
 	    c.close();
-	}
-    
-    final Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-
-			Log.d(TAG,"in handleMessage");
-			int total = msg.getData().getInt("total");
-			//wheelprogressDialog.dismiss();
-			bulletinView.this.removeDialog(PROGRESS_DIALOG);
-			
-			if(total == 0)
-			{
-				Toast.makeText(bulletinView.this, R.string.data_null, Toast.LENGTH_SHORT).show();
-				return;
-			}
-			
-			updateListView();
-			
-		}
-	};
-    
-    private class ProgressThread extends Thread {
-		Handler mHandler;
-		final static int STATE_DONE = 0;
-		final static int STATE_RUNNING = 1;
-		int mState;
-		int total;
-
-		ProgressThread(Handler h) {
-			mHandler = h;
-		}
-
-		public void run() {
-
-			Log.d(TAG,"in Thread");
-			total = refreshBulletin();			
-			Message msg = mHandler.obtainMessage();
-			Bundle b = new Bundle();
-			b.putInt("total", total);
-			msg.setData(b);
-			mHandler.sendMessage(msg);
-		} 
-
-		// 현재의 상태를 설정하는 메소드
-		public void setState(int state) {
-			mState = state;
-		}
 	}
     
     private class readBulletin extends AsyncTask<Void, Integer, Integer> {    	

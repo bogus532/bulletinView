@@ -7,4 +7,5 @@
     <string name="preferences_name">환경설정</string>
     <string name="menu_delete">Delete DB</string>
     <string name="menu_delete_seen">Delete the shown items.</string>
+    <string name="bulletin_feed">http://www.slrclub.com/rss/rss.xml</string>
 </resources>

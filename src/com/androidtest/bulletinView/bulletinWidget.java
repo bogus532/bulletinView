@@ -26,13 +26,15 @@ public class bulletinWidget extends AppWidgetProvider {
 		String author = "";
 		String uridata = "";
 		
-		Log.d(TAG,"updateBulletin");
+		Log.d(TAG,"updateWidget");
+		
+		context.startService(new Intent(context, bulletinService.class));
 				
 		if (lastbulletin != null) {
 			try 
 			{
-				int temp = lastbulletin.getCount();
-				Log.d("bulletinView-widget","getPosition : "+temp);
+				int temp = lastbulletin.getCount(); 
+				Log.d("bulletinView-widget","getCount : "+temp);
 				int index = (int)(Math.random()*temp);
 				lastbulletin.moveToPosition(index);
 				details = lastbulletin.getString(bulletinProvider.TITLE_COLUMN);
