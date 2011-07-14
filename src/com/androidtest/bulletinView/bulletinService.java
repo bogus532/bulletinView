@@ -28,11 +28,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.androidtest.bulletinView.bulletinView;
 
 public class bulletinService extends Service {
 	
@@ -47,6 +50,8 @@ public class bulletinService extends Service {
 	
 	BulletinWidgetLookupTask lastLookup =null;
 	
+	boolean isWifi;
+	
 	//private int appstate;
 	
 	@Override
@@ -57,6 +62,7 @@ public class bulletinService extends Service {
 
 	    Intent intentToFire = new Intent(BULLETIN_REFRESHED);
 	    alarmIntent = PendingIntent.getBroadcast(this, 0, intentToFire, 0);
+	    
 	}
 
 	public bulletinService() {
@@ -85,7 +91,15 @@ public class bulletinService extends Service {
 	    
 	    Log.d(TAG,"onStartCommand - "+"autoUpdate : "+autoUpdate+", updateFreq : "+updateFreq);
 	    
-	        
+	    ConnectivityManager manager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
+	    
+	    if(!isWifi)
+	    {
+	    	Log.d(TAG,"dont connect by wifi");
+	    	return Service.START_NOT_STICKY;
+	    }
+	    
 	    if(autoUpdate) {
 	    	
 	    	int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;

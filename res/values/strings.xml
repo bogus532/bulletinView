@@ -3,9 +3,10 @@
     <string name="hello">Hello World, bulletinView!</string>
     <string name="app_name">bulletinView</string>
     <string name="menu_update">Update</string>
-    <string name="data_null">데이터가 없습니다.</string>
+    <string name="data_null">업데이트할 데이터가 없습니다.</string>
     <string name="preferences_name">환경설정</string>
     <string name="menu_delete">Delete DB</string>
     <string name="menu_delete_seen">Delete the shown items.</string>
     <string name="bulletin_feed">http://www.slrclub.com/rss/rss.xml</string>
+    <string name="wifi_none">WIFI가 연결되어야지만 업데이트를 합니다.</string>
 </resources>

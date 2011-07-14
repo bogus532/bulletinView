@@ -35,15 +35,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.location.Location;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Config;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -89,6 +86,8 @@ public class bulletinView extends Activity {
 	
 	boolean autoUpdate = false;
 	int updateFreq = 0;
+	
+	public boolean isWifi;
 	
     /** Called when the activity is first created. */
     @Override
@@ -153,9 +152,20 @@ public class bulletinView extends Activity {
         
         updateFromPreferences();
         
-        showDialog(PROGRESS_DIALOG);
+        ConnectivityManager manager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
         
-        serviceStartFunc();
+        if(isWifi)
+        {
+        	showDialog(PROGRESS_DIALOG);
+        }
+        else
+        {
+        	Toast.makeText(bulletinView.this, R.string.wifi_none, Toast.LENGTH_SHORT).show();
+        }
+        
+        
+        //serviceStartFunc();
     }
     
     @Override
@@ -263,6 +273,7 @@ public class bulletinView extends Activity {
 				progressThread.start();
 				*/
 				new readBulletin().execute();
+				//serviceStartFunc();
 				
 				return wheelprogressDialog;
 	    }

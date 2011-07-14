@@ -44,6 +44,7 @@ public final class R {
         public static final int menu_delete_seen=0x7f060006;
         public static final int menu_update=0x7f060002;
         public static final int preferences_name=0x7f060004;
+        public static final int wifi_none=0x7f060008;
     }
     public static final class style {
         public static final int NewDialog=0x7f070000;
